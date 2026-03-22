@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -249,7 +250,9 @@
         }
 
         @media (max-width: 768px) {
-            .main-content, .charts-grid {
+
+            .main-content,
+            .charts-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -263,6 +266,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -276,9 +280,9 @@
                 <h2>Analyze Text</h2>
                 <div class="error" id="errorMsg"></div>
                 <div class="success" id="successMsg"></div>
-                
+
                 <textarea id="textInput" placeholder="Enter text to analyze sentiment..."></textarea>
-                
+
                 <div class="input-controls">
                     <select id="sourceSelect">
                         <option value="general">General</option>
@@ -331,7 +335,7 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:8002';
+        const API_URL = 'https://sentiment-dashboard-mmw3.onrender.com';
         let sentimentChart = null;
         let sourceChart = null;
 
@@ -359,7 +363,7 @@
                 displayResult(result);
                 showSuccess('Sentiment analyzed successfully!');
                 loadDashboardStats();
-                
+
             } catch (error) {
                 showError('Error analyzing sentiment: ' + error.message);
             } finally {
@@ -370,8 +374,8 @@
         // Display result
         function displayResult(result) {
             const container = document.getElementById('resultsContainer');
-            const sentimentColor = result.sentiment === 'positive' ? 'positive' : 
-                                  result.sentiment === 'negative' ? 'negative' : 'neutral';
+            const sentimentColor = result.sentiment === 'positive' ? 'positive' :
+                result.sentiment === 'negative' ? 'negative' : 'neutral';
 
             const html = `
                 <div class="result-card">
@@ -405,7 +409,7 @@
                 displayStats(stats);
                 updateCharts(stats);
                 loadHistory();
-                
+
             } catch (error) {
                 console.error('Error loading stats:', error);
             }
@@ -472,7 +476,7 @@
             // Sentiment by Source Chart
             if (sourceChart) sourceChart.destroy();
             const sourceCtx = document.getElementById('sourceChart').getContext('2d');
-            
+
             const sources = Object.keys(stats.sentiment_by_source);
             const positiveData = sources.map(s => stats.sentiment_by_source[s].positive);
             const negativeData = sources.map(s => stats.sentiment_by_source[s].negative);
@@ -570,9 +574,10 @@
 
         // Load stats on page load
         window.addEventListener('load', loadDashboardStats);
-        
+
         // Refresh stats every 10 seconds
         setInterval(loadDashboardStats, 10000);
     </script>
 </body>
+
 </html>
